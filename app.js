@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 import ExpenseRouter from "./routes/userRoute.js";
+import fetch from "node-fetch";
 const app = express();
 dotenv.config();
 app.use(express.json());
@@ -37,5 +38,12 @@ app.post("/Expense/AddExpense", (req, res) => {
   res.send("Expense added!");
 });
 app.listen(port, () => {
-  console.log(`server is running at port:localhost:${port}`);
+  console.log(`server is running at port:http://localhost:${port}`);
+    // Self-ping every 13 minutes
+  const SELF_URL = process.env.SELF_URL;
+  setInterval(() => {
+    fetch(SELF_URL)
+      .then(res => console.log("Self ping:", res.status))
+      .catch(err => console.error("Self ping failed:", err));
+  }, 13 * 60 * 1000);
 });
