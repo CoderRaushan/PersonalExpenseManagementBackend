@@ -56,7 +56,6 @@ export const GetExpense = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const expenses = await Expense.find({})
-      .sort({ date: -1 })   // latest first
       .skip(skip)
       .limit(limit);
 
